@@ -1,10 +1,21 @@
-//Defining Varible*//
-var saveBtn= $(".btn saveBtn");
 
-$("#currentDay").text(moment().format('dddd MMMM YYYY'));
+ 
+//Shows current day and date*//
+$("#currentDay").text(moment().format('dddd MMMM Do YYYY'));
+
+
+//Save Btn Listener jQuery code to run after all elemnts are rendered*//
+
+$(document).ready(function () {
+ $(".saveBtn").on("click", function(){
+ var text = $(this).siblings(".description").val();
+ var time = $(this).parent().attr('id');
+
+ localStorage.setItem(time, text);
 
 
 
+})
 
 
 
