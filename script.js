@@ -1,56 +1,57 @@
+// Wrap all code that interacts with the DOM in a call to jQuery 
+$(function () {
 
- 
-//Shows current day and date*//
-$("#currentDay").text(moment().format('dddd MMMM Do YYYY'));
-
-
-//Save Btn Listener jQuery code to run after all elemnts are rendered*//
-
-$(document).ready(function () {
- $(".saveBtn").on("click", function () {
- var plans = $(this).siblings(".description").val();
- var time = $(this).parent().attr("id");
-
- localStorage.setItem(time, plans);
-})
- 
- function checkTime() {
-  var currentTime = moment().hour();
-
-  $(".time-block").each(function () {
+  var currentHour = dayjs().format('HH')
+  console.log(currentHour);
   
-    var columTime = parseInt($(this).attr("id").split("hour")[1]);
+var plans = []
 
-    if(columTime < currentTime){
-      $(this).addClass("past");
-      $(this).removeClass("present");
-      $(this).removeClass("future");
-    }
+$('.btn').click(function () {
+  console.log($(this).siblings('textarea').val());
+  console.log($(this).parent().attr('id'));
+});
 
-    else if (columTime ===currentTime) {
-      $(this).addClass("present");
-      $(this).removeClass("past");
-      $(this).removeClass("future");
-    }
-   else {
-    $(this).addClass("future");
-    $(this).removeClass("past");
-    $(this).removeClass("present");
-  }
-})
+var dateEl = $('#currentDay');
+var timeEl = 0
+
+setInterval(function() {
+  //timeEl++;
+  dateEl.text(dayjs().format('dddd, MMM D'))
+}, 1000);
+
+console.log(dateEl);
+
+function colortimeblock() {
+
+  $('.description').each(function (textarea) {
+    var timeblock = $(this).parent().attr('id').split('-')[1];
   
-} 
+   
+    console.log(currentHour);
+  
+    if (timeblock.length < 2) {
+      timeblock = '0'+timeblock
+    }
+    console.log(timeblock);
+  
+  
+    if (timeblock < currentHour) {
+      $(this).addClass('past')
+      $(this).removeClass('present', 'future')
+    }else if(timeblock == currentHour){
+      $(this).addClass('present')
+      $(this).removeClass('past', 'future')
+      
+  
+    }else{
+      $(this).addClass('future')
+      $(this).removeClass('past', 'present')
+    }
+  
+  });
+}
 
-$("#hour8 .description").val(localStorage.getItem("hour8"));
-$("#hour9 .description").val(localStorage.getItem("hour9"));
-$("#hour10 .description").val(localStorage.getItem("hour10"));
-$("#hour11 .description").val(localStorage.getItem("hour11"));
-$("#hour12 .description").val(localStorage.getItem("hour12"));
-$("#hour1 .description").val(localStorage.getItem("hour1"));
-$("#hour2 .description").val(localStorage.getItem("hour2"));
-$("#hour3 .description").val(localStorage.getItem("hour3"));
-$("#hour4 .description").val(localStorage.getItem("hour4"));
-$("#hour5 .description").val(localStorage.getItem("hour5"));
+colortimeblock()
 
-checkTime();
-})
+
+});
